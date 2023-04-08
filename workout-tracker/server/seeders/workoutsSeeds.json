@@ -1,0 +1,66 @@
+[
+    {
+        "category": "Upper Body",
+        "description": "Bicep Curl"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Tricep Extension"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Dumbbell Bench Press"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Dubmmbell Incline Press"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Shoulder Press"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Chest Fly"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Lat Pulldown"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Cable Row"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Leg Press"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Hamstring Curl"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Hamstring Extension"
+    },{
+        "category": "Lower Body",
+        "description": "Calf Raise"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Squat"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Bulgarian Split Squat"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Romanian Deadlift"
+    },
+    {
+        "category": "Lower Body",
+        "description": "Deadlift"
+    }
+    
+]
