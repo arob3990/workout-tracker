@@ -10,14 +10,14 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home';
+// import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Workouts from './pages/Workouts'
-import Nav from './components/Nav'
+import Workout from './components/Workout'
+import Header from './components/Header'
 import Footer from './components/Footer'
 
-import Workout from './components/Workout'
+
 
 import './App.css';
 
@@ -47,39 +47,38 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <Workout />
-    // <ApolloProvider client={client}>
-    //   <Router>
-    //     <div className="flex-column justify-flex-start min-100-vh">
-    //       {/* <Nav /> */}
-    //       <div >
-    //         <Routes>
-    //           {/* <Route 
-    //             path="/" 
-    //             element={<Home />}
-    //           />
-    //           <Route 
-    //             path="/login"
-    //             element={<Login />}
-    //           />
-    //           <Route 
-    //             path="/signup"
-    //             element={<Signup />}
-    //           /> */}
-    //           <Route 
-    //             path="/workouts" 
-    //             element={<Workouts />}
-    //           />
-    //           {/* <Route 
-    //             path="/profile" 
-    //             element={<Profile />}
-    //           /> */}
-    //         </Routes>
-    //       </div>
-    //       <Footer />
-    //     </div>
-    //   </Router>
-    // </ApolloProvider>
+    <ApolloProvider client={client}>
+      <Router>
+        <div className="flex-column justify-flex-start min-100-vh">
+          <Header />
+          <div >
+            <Routes>
+              {/* <Route 
+                path="/" 
+                element={<Home />}
+              /> */}
+              <Route 
+                path="/login"
+                element={<Login />}
+              />
+              <Route 
+                path="/signup"
+                element={<Signup />}
+              />
+              <Route 
+                path="/workouts" 
+                element={<Workout />}
+              />
+              {/* <Route 
+                path="/profile" 
+                element={<Profile />}
+              /> */}
+            </Routes>
+          </div>
+          <Footer />
+        </div>
+      </Router>
+    </ApolloProvider>
   );
 }
 
