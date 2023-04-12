@@ -4,13 +4,8 @@ const userWorkoutsSchema = new Schema({
     type: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
       },
-    duration: {
-        type: Number,
-        required: false,
-    },
     sets: {
         type: Number,
         required: false,
@@ -30,6 +25,10 @@ const userWorkoutsSchema = new Schema({
     date: {
         type: Date,
         require: true,
+    },
+    warmup_cooldown: {
+        type: String,
+        required: false
     },
     workouts: [
         {
