@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
+const { User, UserWorkouts } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -11,7 +11,7 @@ const resolvers = {
     
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate('userWorkouts');
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -42,34 +42,33 @@ const resolvers = {
     },
 
     // Add a third argument to the resolver to access data in our `context`
-    addWorkout: async (parent, { userId, UserWorkout }, context) => {
+    addWorkout: async (parent, { userId, userworkout }, context) => {
       // If context has a `user` property, that means the user executing this mutation has a valid JWT and is logged in
       if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: userId },
-          {
-            $addToSet: { UserWorkouts: UserWorkout },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
+        const temp = await UserWorkouts.insertMany((userworkout))
+        const tempUser = await User.findById(userId).populate('userWorkouts')
+        console.log(tempUser)
+        temp.forEach(workout =>{tempUser.userWorkouts.push(workout._id)})
+        await tempUser.save()
+        return await User.findById(userId).populate('userWorkouts')
+        
+
+          
       }
       // If user attempts to execute this mutation and isn't logged in, throw an error
       throw new AuthenticationError('You need to be logged in!');
     },
     // Make it so a logged in user can only remove a workout from their own profile
-    deleteWorkout: async (parent, { UserWorkout }, context) => {
-      if (context.user) {
-        return User.findOneAndUpdate(
-          { _id: context.user._id },
-          { $pull: { UserWorkouts: UserWorkout } },
-          { new: true }
-        );
-      }
-      throw new AuthenticationError('You need to be logged in!');
-    },
+    // deleteWorkout: async (parent, { UserWorkout }, context) => {
+    //   if (context.user) {
+    //     return User.findOneAndUpdate(
+    //       { _id: context.user._id },
+    //       { $pull: { UserWorkouts: UserWorkout } },
+    //       { new: true }
+    //     );
+    //   }
+    //   throw new AuthenticationError('You need to be logged in!');
+    // },
   },
 };
 

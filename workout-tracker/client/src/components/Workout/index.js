@@ -23,7 +23,8 @@ const Workout = () => {
   const [cooldown, setCooldown] = useState('');
   useEffect(()=> {
     setWorkout({
-        ...workout, date: startDate,
+        ...workout, date: startDate, user: "64362faad3505488c0ad8aa6" 
+        //replace string with _id
     })
   },[startDate])
 

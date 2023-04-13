@@ -24,3 +24,22 @@ export const LOGIN_USER = gql`
     }
   }
 `;
+
+export const ADD_WORKOUT = gql`
+  mutation addWorkout(userId: $userId, userworkout: $userworkout) {
+    userWorkouts {
+      _id
+      repetitions
+      sets
+      type
+      weight
+      weightUom
+      workouts {
+        category
+        description
+      }
+      date
+      warmup_cooldown
+    }
+  }
+`

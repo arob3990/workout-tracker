@@ -1,6 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const userWorkoutsSchema = new Schema({
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     type: {
         type: String,
         required: true,
@@ -24,7 +29,7 @@ const userWorkoutsSchema = new Schema({
     },
     date: {
         type: Date,
-        require: true,
+        required: true,
     },
     warmup_cooldown: {
         type: String,
