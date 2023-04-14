@@ -1,12 +1,31 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, UserWorkouts } = require('../models');
+const { User, UserWorkouts, WorkoutCategories, Workouts } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
     // By adding context to our query, we can retrieve the logged in user without specifically searching for them
-    workouts: async() => {
-      return await Workouts.find();
+    
+    workoutCategories: async() => {
+      return await WorkoutCategories.find();
+    },
+    
+    workouts: async(parent, { category }) => {
+      const params = {};
+      
+      if (category){
+        params.category = category;
+      }
+      // if (description) {
+      //   params.description = {
+      //     $regex: description
+      //   };
+      // }
+      return await Workouts.find(params).populate('category');
+    },
+    
+    workout: async (parent, { _id}) => {
+      return await Workouts.findById(_id).populate('category')
     },
     
     me: async (parent, args, context) => {
@@ -50,8 +69,15 @@ const resolvers = {
         console.log(tempUser)
         temp.forEach(workout =>{tempUser.userWorkouts.push(workout._id)})
         await tempUser.save()
-        return await User.findById(userId).populate('userWorkouts')
-        
+        return await User.findById(userId).populate({
+          path : 'userWorkouts',
+          populate : {
+            path : 'workouts',
+            populate: {
+              path: 'category'
+            }
+          }
+        })
 
           
       }

@@ -35,12 +35,12 @@ const userWorkoutsSchema = new Schema({
         type: String,
         required: false
     },
-    workouts: [
+    workouts: 
         {
           type: Schema.Types.ObjectId,
           ref: 'Workouts',
         },
-      ],
+      
 
 })
 

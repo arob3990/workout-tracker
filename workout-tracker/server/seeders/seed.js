@@ -1,10 +1,5 @@
 const db = require('../config/connection');
 const { WorkoutCategories, Workouts } = require('../models');
-// const categorySeeds = require('./categorySeeds.json');
-// const workoutsSeeds = require('./workoutsSeeds.json');
-
-
-
 
 db.once('open', async () => {
   

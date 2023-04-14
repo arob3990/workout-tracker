@@ -9,15 +9,20 @@ const typeDefs = gql`
     userWorkouts: [UserWorkouts]
   }
 
+  type WorkoutCategories {
+    _id: ID
+    name: String
+  }
+
   type Workouts {
     _id: ID
-    category: String
     description: String
+    category: WorkoutCategories
   }
 
   input WorkoutInput {
-    category: String
-    description: String
+    _id: ID
+    
   }
 
   type UserWorkouts {
@@ -43,7 +48,7 @@ const typeDefs = gql`
     weightUom: String
     date: String
     warmup_cooldown: String
-    
+    workouts: ID
 
   }
   
@@ -54,7 +59,9 @@ const typeDefs = gql`
   }
 
   type Query {
-    workouts: [Workouts]
+    workoutCategories: [WorkoutCategories]
+    workouts(category: ID): [Workouts]
+    workout(_id: ID!): Workouts
     me: User
   }
 
