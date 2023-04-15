@@ -41,7 +41,7 @@ const typeDefs = gql`
 
   input UserWorkoutInput {
     user: String
-    type: String
+  
     sets: Int
     repetitions: Int
     weight: Int
@@ -60,7 +60,7 @@ const typeDefs = gql`
 
   type Query {
     workoutCategories: [WorkoutCategories]
-    workouts(category: ID): [Workouts]
+    workouts: [Workouts]
     workout(_id: ID!): Workouts
     me: User
   }

@@ -1,29 +1,40 @@
 import React, { useState, useEffect, useRef } from "react";
 // import { ADD_WORKOUT, SET_WORKOUT};
 import DatePicker from "react-datepicker";
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { ADD_WORKOUT } from '../../utils/mutations'
+import { QUERY_WORKOUTS, QUERY_WORKOUT_CATEGORIES } from '../../utils/queries'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
+// import Row from 'react-bootstrap/Row';
 
 import "react-datepicker/dist/react-datepicker.css";
 import NewWorkout from "../NewWorkout.js";
 
 const Workout = () => {
-    const formReset = useRef(null)
+  const userId = "643764a37cc58eae6e045f97"
+  const formReset = useRef(null)
   const [startDate, setStartDate] = useState(new Date());
-  const [workout, setWorkout] = useState({})
+  const [exercise, setExercise] = useState({})
   const [totalWorkout, setTotalWorkout] = useState([]);
   const [shouldReset, setShouldReset] = useState(false);
   const [warmup, setWarmup] = useState('');
   const [cooldown, setCooldown] = useState('');
+
+  const [addCreateWorkout, { error }] = useMutation(ADD_WORKOUT)
+
+  const { data: exerciseList } = useQuery(QUERY_WORKOUTS);
+
+  const { data: exerciseCategory } = useQuery(QUERY_WORKOUT_CATEGORIES)
+  // console.log(exerciseCategory)
+
   useEffect(()=> {
-    setWorkout({
-        ...workout, date: startDate, user: "64362faad3505488c0ad8aa6" 
+    setExercise({
+        ...exercise, date: startDate, user: "643764a37cc58eae6e045f97", type: "weight-training"
         //replace string with _id
     })
   },[startDate])
@@ -33,38 +44,54 @@ const Workout = () => {
   const addNewWorkout = (e) =>{
     e.preventDefault();
     setTotalWorkout([
-        ...totalWorkout, workout
+        ...totalWorkout, exercise
     ])
     
 
-    setWorkout({date: workout.date});
+    setExercise({date: exercise.date});
     setShouldReset(true);
  
     
   }
 
-  const onSubmit = (e) => {
+  console.log("payload to graphql:" ,userId, totalWorkout)
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     setTotalWorkout([
-        ...totalWorkout, workout, {type: "warmup", warmup_cooldown: warmup}, {type: "cooldown", warmup_cooldown: cooldown}
+        ...totalWorkout, exercise, {type: "warmup", warmup_cooldown: warmup}, {type: "cooldown", warmup_cooldown: cooldown}
     ])
-    formReset.current.reset();
-    setShouldReset(true);
+
+    try {
+      console.log("TOTAL WORKOUT",totalWorkout)
+
+      const data  = await addCreateWorkout({
+        variables: { userId, userworkout:totalWorkout }
+      });
+      formReset.current.reset();
+      setShouldReset(true);
+    } catch (err) {
+      console.error(err);
+    }
+    
   }
 
-  console.log(totalWorkout)
+  // console.log(totalWorkout)
 
-  const onDropdownChange = (e) => {
-    e.preventDefault();
-    console.log(e.target.value)
-}
+//   const onDropdownChange = (e) => {
+//     e.preventDefault();
+//     // console.log(e.target.value)
+// }
 
 const handleWorkoutComponentChange = (workoutComponentObjects) =>{
-
-    setWorkout({...workout, ...workoutComponentObjects})
+    setExercise({...exercise, ...workoutComponentObjects})
 }
 
-console.log(workout)
+// const filteredExercises = exerciseList?.workouts
+//   .filter(ex => {
+//     return ex.category._id === exercise.category
+//   })
+
   return (
     <Container>
     <Form validated={shouldReset} ref = {formReset}>
@@ -93,8 +120,15 @@ console.log(workout)
         }}/>
       </InputGroup>
 
-      <NewWorkout id = "weighttraining" addWorkout = {handleWorkoutComponentChange} shouldReset = {shouldReset} setShouldReset ={()=>{setShouldReset(false)}} />
-    <Button onClick={addNewWorkout} variant="primary" type="submit">Add Another Workout</Button>
+      <NewWorkout
+        id="type"
+        addWorkout={handleWorkoutComponentChange}
+        shouldReset={shouldReset}
+        setShouldReset={()=>{setShouldReset(false)}}
+        exerciseCategory={exerciseCategory?.workoutCategories}
+        exerciseList={exerciseList}
+      />
+    <Button onClick={addNewWorkout} variant="primary" type="submit">Add Another Exercise</Button>
        
 
 

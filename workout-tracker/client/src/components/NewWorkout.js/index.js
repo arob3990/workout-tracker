@@ -1,27 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { useMutation } from '@apollo/client';
-import Button from 'react-bootstrap/Button';
+// import { useMutation } from '@apollo/client';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+// import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 
 
-const NewWorkout = ({addWorkout, shouldReset, setShouldReset}) =>{
+const NewWorkout = ({addWorkout, shouldReset, setShouldReset, exerciseCategory = [], exerciseList = [] }) =>{
     const formOneRef = useRef(null)
-    // const [workout, setWorkout] =useState({
-    //     type: null,
-    //     sets: null,
-    //     repetitions: null,
-    //     weight: null,
-    //     weightUom: null,
-    //     date: null,
-    //     category: null,
-    //     description: null
-    // })
+    const [filteredList, setFilteredList] = useState([])
+    // const { register, handleSubmit } = useForm();
+   
 
 
     useEffect(() =>{
@@ -37,54 +30,65 @@ const NewWorkout = ({addWorkout, shouldReset, setShouldReset}) =>{
     const onInputChange = (e) =>{
         e.preventDefault();
         console.log(e.target.value);
-        const {value, id, checked, type} = e.target
-        console.log(value, id, checked, type)
+        let exerciseId = e?.target?.selectedOptions?.[0]?.getAttribute('data')
+        let {value, id} = e.target
+        
+        if(id === 'category'){
+          const filteredExercises = exerciseList?.workouts
+        .filter(ex => {
+          return ex.category._id === value
+        })
+          setFilteredList(filteredExercises)
+          return
+        }
+        if(id === 'weight'|| id === 'repetitions'||id === 'sets'){
+          value = parseInt(value)
+        }
+
+        console.log(value, id)
         let temp = { 
             [id]: value
         }
-        if(type === 'radio') {
-            if (id === 'KGS' && checked){
-                temp = {
-                    weightUom: "KGS"
-                }
-            
-            }
-            if (id === 'LBS' && checked){
-                temp = {
-                    weightUom: "LBS"
-                }
-            
-            }
+        if(exerciseId){
+          temp = {workouts: exerciseId}
         }
+        
+    
 
         addWorkout(temp);
 
     }
 
+    
+
  
+    const exerciseTypeEls = exerciseCategory.map((category) => (
+      <option key={category._id} value={category._id}>{category.name}</option>
+    ));
 
-
+    const exerciseEls = filteredList
+      .map((exercise) => (
+        <option data={exercise._id} key={exercise._id}>{exercise.description}</option>
+      ));
 
     return(
 <Container>
-    <Form id ='weight-training' validated={shouldReset} ref={formOneRef}>
+    <Form id ='type' validated={shouldReset} ref={formOneRef}>
       <Row clasName ="mb-3">
       <Form.Group  as={Col} className ="mb-3" >
-          <Form.Label >Select Workout Type:</Form.Label>
+          <Form.Label >Upper Body or Lower Body Exercise?:</Form.Label>
           <Col sm={10}>
-          <Form.Select id= 'category' onChange = {onInputChange} defaultValue="Choose...">
+          <Form.Select id= 'category' onChange={onInputChange} defaultValue="Choose...">
             <option>Choose...</option>
-            <option>Upper Body</option>
-            <option>Lower Body</option>
+            {exerciseTypeEls}
           </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Col} className ="mb-3" >
-          <Form.Label >Select Workout:</Form.Label>
-          <Form.Select id= 'description' onChange = {onInputChange} defaultValue="Choose...">
+          <Form.Label >Select Exercise:</Form.Label>
+          <Form.Select id= 'description' onChange={onInputChange} defaultValue="Choose...">
             <option>Choose...</option>
-            <option>Shoulder Press</option>
-            <option>Squat</option>
+            {exerciseEls}
           </Form.Select>
            
         </Form.Group>
@@ -115,27 +119,6 @@ const NewWorkout = ({addWorkout, shouldReset, setShouldReset}) =>{
           </Form.Select>
            
         </Form.Group>
-        {/* <Form.Group as={Col}   id='weightUom'>
-          <Form.Label>Weight UOM</Form.Label>
-          <Col sm={10}>
-            <Form.Check onChange={onInputChange}
-            inline
-              type="radio"
-              label="LBS"
-            
-              id= "LBS"
-            
-            />
-            <Form.Check onChange={onInputChange}
-            inline
-              type="radio"
-              label="KGS"
-        
-              id="KGS"
-             
-            /> */}
-          {/* </Col>
-        </Form.Group> */}
         
       </Row>
 

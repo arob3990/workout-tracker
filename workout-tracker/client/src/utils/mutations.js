@@ -26,20 +26,26 @@ export const LOGIN_USER = gql`
 `;
 
 export const ADD_WORKOUT = gql`
-  mutation addWorkout(userId: $userId, userworkout: $userworkout) {
+mutation AddWorkout($userId: ID!, $userworkout: [UserWorkoutInput]) {
+  addWorkout(userId: $userId, userworkout: $userworkout) {
     userWorkouts {
       _id
-      repetitions
-      sets
+      date
       type
-      weight
-      weightUom
+      sets
+      repetitions
       workouts {
-        category
+        _id
+        category {
+          _id
+          name
+        }
         description
       }
-      date
+      weight
+      weightUom
       warmup_cooldown
     }
   }
+}
 `
