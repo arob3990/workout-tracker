@@ -2,71 +2,52 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Container from 'react-bootstrap/Container';
 
+import { groupBy } from 'lodash'
+
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_USER } from '../utils/queries'
 
-const { data: workoutHistory } = useQuery(QUERY_USER);
-let user;
-
-if (workoutHistory) {
-    user = data.user;
-}
+import Auth from '../utils/auth';
 
 const WorkoutHistory = () =>{
 
+    const { data } = useQuery(QUERY_USER, {fetchPolicy: 'network-only'});
+
+    
+ 
+    const uniqueDates = new Set(
+        data.me.userWorkouts.map((workout) => workout.date)
+      );
+
+      console.log("unique dates",uniqueDates)
+      
 
 
     return(
         <>
-        <Container>
-            {user ? (
-                <>
-                <h2>
-                    Workout History for {user.firstName} {user.lastName}
-                </h2>
-    <Accordion defaultActiveKey="0">
-    {user.userWorkouts.map((userWorkout) => (
-        <Accordion.Item eventKey="0" key={userWorkout._id}>
-        <Accordion.Header>
-            {new Date(parseInt(userWorkout.date)).toLocaleDateString()}
-        </Accordion.Header>
-            <Accordion.Body>
-                TEST FILLER
-                {/* {userWorkout.map(({ _id, image, name, price }, index) => (
-                    <div key={index} className="card px-1 py-1">
-                        <Link to={`/products/${_id}`}>
-                            <img alt={name} src={`/images/${image}`} />
-                            <p>{name}</p>
-                        </Link>
-                        <div>
-                            <span>${price}</span>
-                        </div>
-                    </div>
-                ))} */}
-            </Accordion.Body>
-      </Accordion.Item>
-
-    ))}
-    
-      
-      <Accordion.Item eventKey="1">
-        <Accordion.Header>Accordion Item #2</Accordion.Header>
-        <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Accordion.Body>
-      </Accordion.Item>
+     <Container>
+     <Accordion>
+      {Array.from(uniqueDates).map((date) => (
+        <Accordion.Item key={date} eventKey={date}>
+          <Accordion.Header>{date}</Accordion.Header>
+          <Accordion.Body>
+            {data.me.userWorkouts
+              .filter((workout) => workout.date === date)
+              .map((workout) => (
+                <div key={workout._id}>
+                  <p>{workout.type}</p>
+                  {/* Add other workout details here */}
+                </div>
+              ))}
+          </Accordion.Body>
+        </Accordion.Item>
+      ))}
     </Accordion>
-    </>
-    ) : null}
     </Container>
     </>
-    )
+    
+)
 }
 
 export default WorkoutHistory
+

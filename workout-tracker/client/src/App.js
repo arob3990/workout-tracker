@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import WorkoutHistory from './pages/WorkoutHistory';
 import Workout from './components/Workout'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -53,10 +54,10 @@ function App() {
           <Header />
           <div >
             <Routes>
-              {/* <Route 
+              <Route 
                 path="/" 
-                element={<Home />}
-              /> */}
+                element={<Workout />}
+              />
               <Route 
                 path="/login"
                 element={<Login />}
@@ -68,6 +69,10 @@ function App() {
               <Route 
                 path="/workouts" 
                 element={<Workout />}
+              />
+              <Route 
+                path="/workoutHistory" 
+                element={<WorkoutHistory />}
               />
               {/* <Route 
                 path="/profile" 

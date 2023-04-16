@@ -37,12 +37,15 @@ const Workout = ({userId}) => {
 
   useEffect(()=> {
     setExercise({
-        ...exercise, date: startDate, user: "643764a37cc58eae6e045f97", type: "weight-training"
+        ...exercise, date: startDate, user: userId, type: "weight-training"
         //replace string with _id
     })
   },[startDate])
 
-
+  if (Auth.loggedIn() ) {
+    console.log("USER ID", Auth.getProfile().data._id);
+    userId = Auth.getProfile().data._id
+  }
 
   const addNewWorkout = (e) =>{
     e.preventDefault();
@@ -51,7 +54,7 @@ const Workout = ({userId}) => {
     ])
     
 
-    setExercise({date: exercise.date, user: "643764a37cc58eae6e045f97", type: "weight-training"});
+    setExercise({date: exercise.date, user: userId, type: "weight-training"});
     console.log("setExercise:",exercise)
     setShouldReset(true);
  
@@ -63,7 +66,7 @@ const Workout = ({userId}) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setTotalWorkout([
-        ...totalWorkout, exercise, {type: "warmup", warmup_cooldown: warmup, date: startDate}, {type: "cooldown", warmup_cooldown: cooldown, date: startDate, user: "643764a37cc58eae6e045f97" }
+        ...totalWorkout, exercise, {type: "warmup", warmup_cooldown: warmup, date: startDate}, {type: "cooldown", warmup_cooldown: cooldown, date: startDate }
     ])
 
     let finalTotalWorkout = totalWorkout.map(wo=>{
