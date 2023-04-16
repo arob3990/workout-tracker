@@ -31,6 +31,9 @@ const Header = () => {
             </>
           ) : (
             <>
+              <Link className="btn btn-lg btn-primary m-2" to="/workouts">
+                Enter A New Workout
+              </Link>
               <Link className="btn btn-lg btn-primary m-2" to="/login">
                 Login
               </Link>

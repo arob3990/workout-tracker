@@ -10,6 +10,8 @@ const resolvers = {
       return await WorkoutCategories.find();
     },
     
+
+
     workouts: async(parent, { category }) => {
       const params = {};
       
@@ -21,7 +23,9 @@ const resolvers = {
       //     $regex: description
       //   };
       // }
-      return await Workouts.find(params).populate('category');
+      const workouts = await Workouts.find(params).populate('category');
+
+      return workouts;
     },
     
     workout: async (parent, { _id}) => {
@@ -63,7 +67,9 @@ const resolvers = {
     // Add a third argument to the resolver to access data in our `context`
     addWorkout: async (parent, { userId, userworkout }, context) => {
       // If context has a `user` property, that means the user executing this mutation has a valid JWT and is logged in
-      if (context.user) {
+      console.log(userworkout)
+      console.log(context.user)
+      // if (context.user) {
         const temp = await UserWorkouts.insertMany((userworkout))
         const tempUser = await User.findById(userId).populate('userWorkouts')
         console.log(tempUser)
@@ -80,9 +86,9 @@ const resolvers = {
         })
 
           
-      }
+      // }
       // If user attempts to execute this mutation and isn't logged in, throw an error
-      throw new AuthenticationError('You need to be logged in!');
+      // throw new AuthenticationError('You need to be logged in!');
     },
     // Make it so a logged in user can only remove a workout from their own profile
     // deleteWorkout: async (parent, { UserWorkout }, context) => {

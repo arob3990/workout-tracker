@@ -8,7 +8,7 @@ const userWorkoutsSchema = new Schema({
     },
     type: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
       },
     sets: {

@@ -1,13 +1,23 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_WORKOUTS = gql`
-{
+export const QUERY_WORKOUTS = gql` {
     workouts {
+      _id
+      category {
         _id
-        category
-        description
+        name
+      }
+      description
     }
-}
+  }
+`;
+
+export const QUERY_WORKOUT_CATEGORIES = gql` {
+    workoutCategories {
+        _id
+        name
+      }
+    }
 `;
 
 export const QUERY_USER = gql`

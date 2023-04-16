@@ -60,7 +60,7 @@ const typeDefs = gql`
 
   type Query {
     workoutCategories: [WorkoutCategories]
-    workouts(category: ID): [Workouts]
+    workouts: [Workouts]
     workout(_id: ID!): Workouts
     me: User
   }
