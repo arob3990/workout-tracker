@@ -41,7 +41,7 @@ const typeDefs = gql`
 
   input UserWorkoutInput {
     user: String
-  
+    type: String
     sets: Int
     repetitions: Int
     weight: Int

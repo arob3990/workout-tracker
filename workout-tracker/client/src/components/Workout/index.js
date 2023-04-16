@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 // import { ADD_WORKOUT, SET_WORKOUT};
 import DatePicker from "react-datepicker";
 import { useMutation, useQuery } from '@apollo/client';
+import { Link } from 'react-router-dom';
 import { ADD_WORKOUT } from '../../utils/mutations'
 import { QUERY_WORKOUTS, QUERY_WORKOUT_CATEGORIES } from '../../utils/queries'
 import Button from 'react-bootstrap/Button';
@@ -9,14 +10,16 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
+import Auth from '../../utils/auth';
+
 // import Col from 'react-bootstrap/Col';
 // import Row from 'react-bootstrap/Row';
 
 import "react-datepicker/dist/react-datepicker.css";
 import NewWorkout from "../NewWorkout.js";
 
-const Workout = () => {
-  const userId = "643764a37cc58eae6e045f97"
+const Workout = ({userId}) => {
+  
   const formReset = useRef(null)
   const [startDate, setStartDate] = useState(new Date());
   const [exercise, setExercise] = useState({})
@@ -48,7 +51,8 @@ const Workout = () => {
     ])
     
 
-    setExercise({date: exercise.date});
+    setExercise({date: exercise.date, user: "643764a37cc58eae6e045f97", type: "weight-training"});
+    console.log("setExercise:",exercise)
     setShouldReset(true);
  
     
@@ -59,15 +63,46 @@ const Workout = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setTotalWorkout([
-        ...totalWorkout, exercise, {type: "warmup", warmup_cooldown: warmup}, {type: "cooldown", warmup_cooldown: cooldown}
+        ...totalWorkout, exercise, {type: "warmup", warmup_cooldown: warmup, date: startDate}, {type: "cooldown", warmup_cooldown: cooldown, date: startDate, user: "643764a37cc58eae6e045f97" }
     ])
+
+    let finalTotalWorkout = totalWorkout.map(wo=>{
+      return{
+        user:userId,
+        repetitions:wo?.repetitions,
+        sets:wo.sets,
+        weight:wo.weight,
+        weightUom:wo.weightUom,
+        date:wo.date,
+        workouts:wo?.workouts,
+        type: wo.type
+      }
+    })
+    if (Object.keys(exercise).length > 0) {
+      finalTotalWorkout.push({
+        user:userId,
+        repetitions:exercise?.repetitions,
+        sets:exercise.sets,
+        weight:exercise.weight,
+        weightUom:exercise.weightUom,
+        date:exercise.date,
+        workouts:exercise?.workouts,
+        type:exercise.type
+      })
+    }
+    finalTotalWorkout.push({user:userId,date:startDate,type: "warmup", warmup_cooldown: warmup})
+    finalTotalWorkout.push({user:userId,date:startDate,type: "cooldown", warmup_cooldown: cooldown})
 
     try {
       console.log("TOTAL WORKOUT",totalWorkout)
 
       const data  = await addCreateWorkout({
-        variables: { userId, userworkout:totalWorkout }
+        variables: { userId, userworkout:finalTotalWorkout }
       });
+
+      // OLD const data  = await addCreateWorkout({
+      //   variables: { userId, userworkout:totalWorkout }
+      // });
       formReset.current.reset();
       setShouldReset(true);
     } catch (err) {
@@ -93,7 +128,9 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
 //   })
 
   return (
+    
     <Container>
+    {Auth.loggedIn() ? (
     <Form validated={shouldReset} ref = {formReset}>
         <InputGroup className="mb-3">
         <InputGroup.Text id="basic-addon1">Select Date</InputGroup.Text>
@@ -139,6 +176,12 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
         Submit
       </Button>
     </Form>
+    ) : (
+      <p>
+        You need to be logged in to endorse skills. Please{' '}
+        <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
+      </p>
+    )}
     <Table striped bordered hover>
     <thead>
         <tr>
@@ -177,6 +220,7 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
                 ))}
               </tbody>
     </Table>
+    
     </Container>
     
   );
