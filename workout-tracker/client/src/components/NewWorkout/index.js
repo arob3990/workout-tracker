@@ -105,58 +105,49 @@ const NewWorkout = ({addWorkout, shouldReset, setShouldReset, exerciseCategory =
       ));
 
     return(
-<Container>
-    <Form id ='type' validated={shouldReset} ref={formOneRef} {...shouldReset && {value:""}}>
-      <Row clasName ="mb-3">
-      <Form.Group  as={Col} className ="mb-3" >
-          <Form.Label >Upper Body or Lower Body Exercise?:</Form.Label>
-          <Col sm={10}>
-          <Form.Select id= 'category' onChange={onInputChange} {...shouldReset && {value:""}} defaultValue="Choose...">
-            <option>Choose...</option>
-            {exerciseTypeEls}
-          </Form.Select>
-          </Col>
-        </Form.Group>
-        <Form.Group as={Col} className ="mb-3" >
-          <Form.Label >Select Exercise:</Form.Label>
-          <Form.Select id= 'description' onChange={onInputChange} {...shouldReset && {value:""}} defaultValue="Choose...">
-            <option>Choose...</option>
-            {exerciseEls}
-          </Form.Select>
-           
-        </Form.Group>
-        </Row> 
+<Container className="p-2">
+  <Form className="p-3 square border border-1 rounded bg-light" id='type' validated={shouldReset} ref={formOneRef} {...shouldReset && { value: "" }}>
+    <Row clasName="mb-3">
+      <Form.Group as={Col} className="mb-3" xs={12} md={6} lg={6}>
+        <Form.Label>Upper Body or Lower Body Exercise?:</Form.Label>
+        <Form.Select id='category' onChange={onInputChange} {...shouldReset && { value: "" }} defaultValue="Choose...">
+          <option>Choose...</option>
+          {exerciseTypeEls}
+        </Form.Select>
+      </Form.Group>
+      <Form.Group as={Col} className="mb-3" xs={12} md={6} lg={6}>
+        <Form.Label>Select Exercise:</Form.Label>
+        <Form.Select id='description' onChange={onInputChange} {...shouldReset && { value: "" }} defaultValue="Choose...">
+          <option>Choose...</option>
+          {exerciseEls}
+        </Form.Select>
+      </Form.Group>
+    </Row>
+    <Row className="mb-3">
+      <Form.Group as={Col} xs={12} md={3} lg={3}>
+        <Form.Label>Number of Sets</Form.Label>
+        <Form.Control id='sets' onChange={onInputChange} {...shouldReset && { value: "" }} />
+      </Form.Group>
+      <Form.Group as={Col} xs={12} md={3} lg={3}>
+        <Form.Label>Number of Reps</Form.Label>
+        <Form.Control id='repetitions' onChange={onInputChange} {...shouldReset && { value: "" }} />
+      </Form.Group>
+      <Form.Group as={Col} xs={12} md={3} lg={3}>
+        <Form.Label>Weight</Form.Label>
+        <Form.Control id='weight' onChange={onInputChange} {...shouldReset && { value: "" }} />
+      </Form.Group>
+      <Form.Group as={Col} className="mb-3" xs={12} md={3} lg={3}>
+        <Form.Label>Weight UOM:</Form.Label>
+        <Form.Select id='weightUom' onChange={onInputChange} {...shouldReset && { value: "" }} defaultValue="Choose...">
+          <option>Choose...</option>
+          <option>LBS</option>
+          <option>KGS</option>
+        </Form.Select>
+      </Form.Group>
+    </Row>
+  </Form>
+</Container>
 
-        <Row className="mb-3">
-        <Form.Group as={Col} >
-          <Form.Label>Number of Sets</Form.Label>
-          <Form.Control id = 'sets' onChange = {onInputChange} {...shouldReset && {value:""}}/>
-        </Form.Group>
-
-        <Form.Group as={Col} >
-          <Form.Label>Number of Reps</Form.Label>
-          <Form.Control id= 'repetitions' onChange ={onInputChange} {...shouldReset && {value:""}}/>
-        </Form.Group>
-
-        <Form.Group as={Col} >
-          <Form.Label>Weight</Form.Label>
-          <Form.Control id='weight' onChange={onInputChange} {...shouldReset && {value:""}}/>
-        </Form.Group>
-
-        <Form.Group as={Col} className ="mb-3" >
-          <Form.Label >Weight UOM:</Form.Label>
-          <Form.Select id= 'weightUom' onChange = {onInputChange} {...shouldReset && {value:""}} defaultValue="Choose...">
-            <option>Choose...</option>
-            <option>LBS</option>
-            <option>KGS</option>
-          </Form.Select>
-           
-        </Form.Group>
-        
-      </Row>
-
-      </Form>
-    </Container>
     )
 }
 

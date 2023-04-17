@@ -36,13 +36,14 @@ const WorkoutHistory = () =>{
     return(
         <>
     <h2 style={{textAlign: "center"}}>Displaying Past Workouts for {data.me.firstName} {data.me.lastName}</h2>
-     <Container>
+     <Container className="p-3 square border border-1 rounded bg-white">
      {Auth.loggedIn() ? (
      <Accordion>
      {uniqueDates.map((date) => (
        <Accordion.Item key={date} eventKey={date}>
          <Accordion.Header>{formatDate(date)}</Accordion.Header>
          <Accordion.Body>
+         <div style={{ height: '200px', overflow: 'auto' }}>
            <Table striped bordered hover>
              <thead>
                <tr>
@@ -71,6 +72,7 @@ const WorkoutHistory = () =>{
                ))}
              </tbody>
            </Table>
+           </div>
          </Accordion.Body>
        </Accordion.Item>
      ))}

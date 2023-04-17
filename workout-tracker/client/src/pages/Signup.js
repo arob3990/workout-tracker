@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../utils/mutations';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
 
 import Auth from '../utils/auth';
 
@@ -42,9 +43,7 @@ const Signup = () => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
+    <Container className="p-3 square border border-1 rounded bg-light m-2 mx-auto">
           <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
           <div className="card-body">
             {data ? (
@@ -118,9 +117,8 @@ const Signup = () => {
               </div>
             )}
           </div>
-        </div>
-      </div>
-    </main>
+          </Container>
+
   );
 };
 
