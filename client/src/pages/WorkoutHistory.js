@@ -19,7 +19,7 @@ const WorkoutHistory = () =>{
     if (loading) return "Loading...";
     if (error) return <pre>{error.message}</pre>
 
-    console.log("DATA",data)
+    // console.log("DATA",data)
 
 
  

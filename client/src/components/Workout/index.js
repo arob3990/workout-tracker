@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-// import { ADD_WORKOUT, SET_WORKOUT};
 import DatePicker from "react-datepicker";
 import { useMutation, useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
@@ -11,10 +10,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import Auth from '../../utils/auth';
-
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
-
 import "react-datepicker/dist/react-datepicker.css";
 import NewWorkout from "../NewWorkout";
 
@@ -33,19 +28,19 @@ const Workout = ({userId}) => {
   const { data: exerciseList } = useQuery(QUERY_WORKOUTS);
 
   const { data: exerciseCategory } = useQuery(QUERY_WORKOUT_CATEGORIES)
-  // console.log(exerciseCategory)
+
 
  
 
   useEffect(()=> {
     setExercise({
         ...exercise, date: startDate, user: userId, type: "weight-training"
-        //replace string with _id
+
     })
   },[startDate])
 
   if (Auth.loggedIn() ) {
-    console.log("USER ID", Auth.getProfile().data._id);
+    // console.log("USER ID", Auth.getProfile().data._id);
     userId = Auth.getProfile().data._id
   }
 
@@ -57,13 +52,13 @@ const Workout = ({userId}) => {
     
 
     setExercise({date: exercise.date, user: userId, type: "weight-training"});
-    console.log("setExercise:",exercise)
+    // console.log("setExercise:",exercise)
     setShouldReset(true);
  
     
   }
 
-  console.log("payload to graphql:" ,userId, totalWorkout)
+  // console.log("payload to graphql:" ,userId, totalWorkout)
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -99,15 +94,11 @@ const Workout = ({userId}) => {
     finalTotalWorkout.push({user:userId,date:startDate,type: "cooldown", warmup_cooldown: cooldown})
 
     try {
-      console.log("TOTAL WORKOUT",totalWorkout)
+      // console.log("TOTAL WORKOUT",totalWorkout)
 
       const data  = await addCreateWorkout({
         variables: { userId, userworkout:finalTotalWorkout }
       });
-
-      // OLD const data  = await addCreateWorkout({
-      //   variables: { userId, userworkout:totalWorkout }
-      // });
       formReset.current.reset();
       setShouldReset(true);
     } catch (err) {
@@ -116,21 +107,10 @@ const Workout = ({userId}) => {
     
   }
 
-  // console.log(totalWorkout)
-
-//   const onDropdownChange = (e) => {
-//     e.preventDefault();
-//     // console.log(e.target.value)
-// }
 
 const handleWorkoutComponentChange = (workoutComponentObjects) =>{
     setExercise({...exercise, ...workoutComponentObjects})
 }
-
-// const filteredExercises = exerciseList?.workouts
-//   .filter(ex => {
-//     return ex.category._id === exercise.category
-//   })
 
   return (
     
@@ -173,12 +153,6 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
         
       />
     <Button className="p-1 m-2" onClick={addNewWorkout} variant="primary" type="submit">Add Another Exercise</Button>
-       
-
-
-    
-
-
     <Button className="p-1 m-2" onClick ={onSubmit} variant="primary" type="submit">
         Submit
       </Button>

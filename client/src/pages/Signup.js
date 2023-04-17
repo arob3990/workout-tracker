@@ -29,7 +29,7 @@ const Signup = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log(formState);
+    // console.log(formState);
 
     try {
       const { data } = await addUser({
@@ -69,38 +69,6 @@ const Signup = () => {
                   <Form.Label>Password</Form.Label>
                   <Form.Control type="password" placeholder="Create your password" name="password" value={formState.password} onChange={handleChange}/>
                 </Form.Group>
-                {/* <input
-                  className="form-input"
-                  placeholder="First Name"
-                  name="firstName"
-                  type="text"
-                  value={formState.firstName}
-                  onChange={handleChange}
-                /> */}
-                {/* <input
-                  className="form-input"
-                  placeholder="Last Name"
-                  name="lastName"
-                  type="text"
-                  value={formState.lastName}
-                  onChange={handleChange}
-                /> */}
-                {/* <input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                /> */}
-                {/* <input
-                  className="form-input"
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                /> */}
                 <Button
                   variant="primary"
                   style={{ cursor: 'pointer' }}

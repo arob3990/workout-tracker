@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
-// import { useMutation } from '@apollo/client';
-// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-// import InputGroup from 'react-bootstrap/InputGroup';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -13,7 +9,6 @@ import Row from 'react-bootstrap/Row';
 const NewWorkout = ({addWorkout, shouldReset, setShouldReset, exerciseCategory = [], exerciseList = [] }) =>{
     const formOneRef = useRef(null)
     const [filteredList, setFilteredList] = useState([])
-    // const { register, handleSubmit } = useForm();
    
 
 
@@ -21,15 +16,13 @@ const NewWorkout = ({addWorkout, shouldReset, setShouldReset, exerciseCategory =
         if(shouldReset === true){
             formOneRef.current.reset();
             setShouldReset(false)
-            // console.log("HELP ME FIND THIS",shouldReset)
+
         }
     },[shouldReset])
 
-    // console.log("HELP ME FIND THIS",shouldReset)
-
     const onInputChange = (e) =>{
       e.preventDefault();
-      console.log(e.target.value);
+      // console.log(e.target.value);
       let data = e?.target?.selectedOptions?.[0]?.getAttribute('data')
       let {value, id} = e.target
       let temp = {}
@@ -55,49 +48,11 @@ const NewWorkout = ({addWorkout, shouldReset, setShouldReset, exerciseCategory =
       }
       addWorkout(temp);
   }
-
-    // OLD const onInputChange = (e) =>{
-    //     e.preventDefault();
-    //     console.log("target value",e.target.value);
-    //     // console.log("selected options",e.target.selectedOptions[0].getAttribute('data'))
-    //     let exerciseId = e?.target?.selectedOptions?.[0]?.getAttribute('data')
-    //     let {value, id} = e.target
-        
-    //     if(id === 'category'){
-    //       const filteredExercises = exerciseList?.workouts
-    //     .filter(ex => {
-    //       return ex.category._id === value
-    //     })
-    //       setFilteredList(filteredExercises)
-    //       return
-    //     }
-    //     if(id === 'weight'|| id === 'repetitions'||id === 'sets'){
-    //       value = parseInt(value)
-    //     }
-
-    //     console.log(value, id)
-    //     let temp = { 
-    //         [id]: value
-    //     }
-    //     if(exerciseId){
-    //       console.log(exerciseId)
-    //       temp = {workouts: exerciseId}
-    //     }
-    //     console.log("THIS IS THE TEMP",temp)
-    
-
-    //     addWorkout(temp);
-
-    // }
-
     
     const exerciseTypeEls = exerciseCategory.map((category) => (
       <option key={category._id} data={category._id}>{category.name}</option>
     ));
- 
-    // OLD const exerciseTypeEls = exerciseCategory.map((category) => (
-    //   <option key={category._id} value={category._id}>{category.name}</option>
-    // ));
+
 
     const exerciseEls = filteredList
       .map((exercise) => (
