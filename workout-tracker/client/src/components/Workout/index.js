@@ -35,6 +35,8 @@ const Workout = ({userId}) => {
   const { data: exerciseCategory } = useQuery(QUERY_WORKOUT_CATEGORIES)
   // console.log(exerciseCategory)
 
+ 
+
   useEffect(()=> {
     setExercise({
         ...exercise, date: startDate, user: userId, type: "weight-training"
@@ -181,14 +183,13 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
     </Form>
     ) : (
       <p>
-        You need to be logged in to endorse skills. Please{' '}
+        You need to be logged in to enter in your workouts. Please{' '}
         <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
       </p>
     )}
     <Table striped bordered hover>
     <thead>
         <tr>
-          <th>#</th>
           <th>Type</th>
           <th>Category</th>
           <th>Description</th>
@@ -201,7 +202,6 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
       <tbody>
                 {totalWorkout.map((totalWorkoutObj) => (
                   <tr key={totalWorkout.id}>
-                    <td>{totalWorkoutObj.id}</td>
                     <td>{totalWorkoutObj.type}</td>
                     <td>{totalWorkoutObj.category}</td>
                     <td>{totalWorkoutObj.description}</td>
@@ -209,16 +209,6 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
                     <td>{totalWorkoutObj.repetitions}</td>
                     <td>{totalWorkoutObj.weight}</td>
                     <td>{totalWorkoutObj.weightUom}</td>
-                    <td>
-                      <button
-                        type="button"
-                        // onClick={() => removeStudent(student.id)}
-                      >
-                        <span role="img" aria-label="delete">
-                          ✖️
-                        </span>
-                      </button>
-                    </td>
                   </tr>
                 ))}
               </tbody>
