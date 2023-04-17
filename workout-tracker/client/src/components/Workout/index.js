@@ -16,7 +16,7 @@ import Auth from '../../utils/auth';
 // import Row from 'react-bootstrap/Row';
 
 import "react-datepicker/dist/react-datepicker.css";
-import NewWorkout from "../NewWorkout.js";
+import NewWorkout from "../NewWorkout";
 
 const Workout = ({userId}) => {
   
@@ -134,17 +134,18 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
 
   return (
     
-    <Container>
+    <Container className="p-3">
     {Auth.loggedIn() ? (
-    <Form validated={shouldReset} ref = {formReset}>
-        <InputGroup className="mb-3">
+    <Container className="p-3 square border border-1 rounded bg-light m-2">
+    <Form className="p-3 square border border-1 rounded bg-white" validated={shouldReset} ref = {formReset}>
+        <InputGroup className="p-2">
         <InputGroup.Text id="basic-addon1">Select Date</InputGroup.Text>
             <div>
-            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} />
             </div>
       </InputGroup>
       
-      <InputGroup>
+      <InputGroup className="p-2">
         <InputGroup.Text>Warmup</InputGroup.Text>
         <Form.Control id = "warmup" placeholder="Enter in your warmup details" as="textarea" aria-label="Warmup"
         onChange = {(e)=>{
@@ -153,7 +154,7 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
         }} />
       </InputGroup>
 
-      <InputGroup>
+      <InputGroup className="p-2">
         <InputGroup.Text>Cooldown</InputGroup.Text>
         <Form.Control id = "cooldown" placeholder="Enter in your cooldown details" as="textarea" aria-label="Cooldown" 
         onChange = {(e)=>{
@@ -169,24 +170,28 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
         setShouldReset={()=>{setShouldReset(false)}}
         exerciseCategory={exerciseCategory?.workoutCategories}
         exerciseList={exerciseList}
+        
       />
-    <Button onClick={addNewWorkout} variant="primary" type="submit">Add Another Exercise</Button>
+    <Button className="p-1 m-2" onClick={addNewWorkout} variant="primary" type="submit">Add Another Exercise</Button>
        
 
 
     
 
 
-    <Button onClick ={onSubmit} variant="primary" type="submit">
+    <Button className="p-1 m-2" onClick ={onSubmit} variant="primary" type="submit">
         Submit
       </Button>
     </Form>
+    </Container>
     ) : (
       <p>
         You need to be logged in to enter in your workouts. Please{' '}
         <Link to="/login">login</Link> or <Link to="/signup">signup.</Link>
       </p>
     )}
+    <Container className="p-3 square border border-1 rounded bg-light m-2">
+    <div style={{ height: '200px', overflow: 'auto' }}>
     <Table striped bordered hover>
     <thead>
         <tr>
@@ -213,6 +218,8 @@ const handleWorkoutComponentChange = (workoutComponentObjects) =>{
                 ))}
               </tbody>
     </Table>
+    </div>
+    </Container>
     
     </Container>
     
