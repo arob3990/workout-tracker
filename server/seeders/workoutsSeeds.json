@@ -61,6 +61,10 @@
     {
         "category": "Lower Body",
         "description": "Deadlift"
+    },
+    {
+        "category": "Upper Body",
+        "description": "Dumbbell Row"
     }
     
 ]
