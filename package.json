@@ -2,7 +2,6 @@
   "name": "workout-tracker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "start": "cd server && node server.js --ignore client",
     "develop": "concurrently \"cd server && npm run start\" \"cd client && npm start\"",

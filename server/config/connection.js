@@ -10,4 +10,6 @@ mongoose.connect(
   }
 );
 
+console.log(process.env.MONGODB_URI),
+
 module.exports = mongoose.connection;
